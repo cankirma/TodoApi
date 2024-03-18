@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5000
+      - ConnectionStrings:DefaultConnection=Server=msSqlDb;Database=todo;User=sa;Password=Password12
+    ports:
+      - "5000"

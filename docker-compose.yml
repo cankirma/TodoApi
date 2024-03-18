@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: src/Presentation/Api/Dockerfile
+    restart: unless-stopped
+    networks:
+      - backend
+    links: 
+      - msSqlDb 
+    ports:
+      - "5000:5000"
+    depends_on:
+      - msSqlDb
+     
+  msSqlDb:
+    container_name: msSqlDb
+    image:  mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    restart: unless-stopped
+    environment:
+      SA_PASSWORD: "Password12"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./sqlserver-data1:/var/lib/sqlserver/data
+    networks: 
+      - backend
+
+networks:
+  backend:
+    driver: "bridge"
